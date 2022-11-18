@@ -1,19 +1,19 @@
 {
-  "name": "recorder-node",
+  "name": "wav-recorder-node",
   "version": "0.0.1",
-  "description": "Web Audio API node for recording audio to file",
-  "main": "recorder-node.js",
+  "description": "Web Audio API node for recording audio to WAV-file",
+  "main": "wav-recorder-node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/seierstad/recorder-node.git"
+    "url": "git+ssh://git@github.com/seierstad/wav-recorder-node.git"
   },
   "author": "Erik E. Seierstad",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/seierstad/recorder-node/issues"
+    "url": "https://github.com/seierstad/wav-recorder-node/issues"
   },
-  "homepage": "https://github.com/seierstad/recorder-node#readme"
+  "homepage": "https://github.com/seierstad/wav-recorder-node#readme"
 }
