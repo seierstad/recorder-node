@@ -20,17 +20,40 @@ const interleave = (inputs = []) => {
 };
 
 
-const floatToPCM = (output, offset, input, bitsPrSample) => {
+const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bitsPrByte = 8) => {
+
+    /*
+        output: a DataView
+        offset: where to start writing to output
+        input: array or Float32Array of float values in the range -1 to 1
+        bitsPrSample: number of bits to be used to encode each sample
+        littleEndian: write the least significant byte first, if bitsPrSample > 8
+        bitsPrByte: split each sample into bytes with this amount of bits pr byte 
+    */
 
     const negRange = 1 << (bitsPrSample - 1);
     const posRange = negRange - 1;
+    const bytesPrSample = Math.ceil(bitsPrSample / bitsPrByte);
+    const mask = (1 << bitsPrSample) - 1;
 
-    for (let i = 0; i < input.length; i++, offset += 2) {
+    const insertByte = (value, index) => output.setUint8(offset + index, value);
+
+
+    for (let i = 0; i < input.length; i++, offset += bytesPrSample) {
 
         const s = Math.max(-1, Math.min(1, input[i]));
-        const value = s < 0 ? s * negRange : s * posRange;
+        const value = Math.floor(s < 0 ? s * negRange : s * posRange);
 
-        output.setInt16(offset, value, true);
+        const bytes = [];
+        for (let b = 0; b < bytesPrSample; b += 1) {
+            bytes[b] = value >> bitsPrByte & mask;
+        }
+
+        if (littleEndian) {
+            bytes.forEach(insertByte)
+        } else {
+            bytes.reverse.forEach(insertByte);
+        }
     }
 };
 
@@ -136,6 +159,8 @@ function encodeWAV(recording, sampleRate, float = false, bitsPrSample = (float ?
 }
 
 export {
-    encodeWAV
+    encodeWAV,
+    floatToPCM,
+    interleave
 };
 
