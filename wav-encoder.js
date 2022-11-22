@@ -34,8 +34,9 @@ const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bi
     const negRange = 1 << (bitsPrSample - 1);
     const posRange = negRange - 1;
     const bytesPrSample = Math.ceil(bitsPrSample / bitsPrByte);
-    const mask = (1 << bitsPrSample) - 1;
+    const mask = (1 << bitsPrByte) - 1;
 
+    console.log({mask});
     const insertByte = (value, index) => output.setUint8(offset + index, value);
 
 
@@ -44,15 +45,15 @@ const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bi
         const s = Math.max(-1, Math.min(1, input[i]));
         const value = Math.floor(s < 0 ? s * negRange : s * posRange);
 
-        const bytes = [];
+        const bytes = new Uint8Array();
         for (let b = 0; b < bytesPrSample; b += 1) {
-            bytes[b] = value >> bitsPrByte & mask;
+            bytes[b] = (value >> (bitsPrByte * b)) & mask;
         }
 
         if (littleEndian) {
-            bytes.forEach(insertByte)
+            bytes.forEach(insertByte);
         } else {
-            bytes.reverse.forEach(insertByte);
+            bytes.reverse().forEach(insertByte);
         }
     }
 };
