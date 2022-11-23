@@ -1,6 +1,6 @@
 {
   "name": "wav-recorder-node",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Web Audio API node for recording audio to WAV-file",
   "main": "index.js",
   "scripts": {

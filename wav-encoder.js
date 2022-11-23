@@ -19,6 +19,11 @@ const interleave = (inputs = []) => {
     return result;
 };
 
+const a = new ArrayBuffer(1024);
+const dv = new DataView(a);
+const inn = new Float32Array(200);
+inn.fill(1);
+const u = new Uint8Array(a);
 
 const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bitsPrByte = 8) => {
 
@@ -28,7 +33,7 @@ const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bi
         input: array or Float32Array of float values in the range -1 to 1
         bitsPrSample: number of bits to be used to encode each sample
         littleEndian: write the least significant byte first, if bitsPrSample > 8
-        bitsPrByte: split each sample into bytes with this amount of bits pr byte 
+        bitsPrByte: split each sample into bytes with this amount of bits pr byte
     */
 
     const negRange = 1 << (bitsPrSample - 1);
@@ -44,8 +49,9 @@ const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bi
 
         const s = Math.max(-1, Math.min(1, input[i]));
         const value = Math.floor(s < 0 ? s * negRange : s * posRange);
+        console.log(value);
 
-        const bytes = new Uint8Array();
+        const bytes = new Uint8Array(bytesPrSample);
         for (let b = 0; b < bytesPrSample; b += 1) {
             bytes[b] = (value >> (bitsPrByte * b)) & mask;
         }
@@ -92,7 +98,7 @@ function encodeWAV(recording, sampleRate, float = false, bitsPrSample = (float ?
     const fmtChunkDataLength = 16;
     const fmtChunkLength = fmtChunkDataLength + 4;
 
-    const dataChunkLength = dataLength + 8; // "data" + size (Uint32) + data 
+    const dataChunkLength = dataLength + 8; // "data" + size (Uint32) + data
 
     let index = 0;
 
@@ -117,7 +123,7 @@ function encodeWAV(recording, sampleRate, float = false, bitsPrSample = (float ?
     view.setUint32(index, fmtChunkDataLength, true);
     index += 4;
 
-    /* sample format */ 
+    /* sample format */
     view.setUint16(index, (float ? WAVE_FORMAT_IEEE_FLOAT : WAVE_FORMAT_PCM), true);
     index += 2;
 
