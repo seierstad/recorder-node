@@ -41,7 +41,6 @@ const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bi
     const bytesPrSample = Math.ceil(bitsPrSample / bitsPrByte);
     const mask = (1 << bitsPrByte) - 1;
 
-    console.log({mask});
     const insertByte = (value, index) => output.setUint8(offset + index, value);
 
 
@@ -49,7 +48,6 @@ const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bi
 
         const s = Math.max(-1, Math.min(1, input[i]));
         const value = Math.floor(s < 0 ? s * negRange : s * posRange);
-        console.log(value);
 
         const bytes = new Uint8Array(bytesPrSample);
         for (let b = 0; b < bytesPrSample; b += 1) {
