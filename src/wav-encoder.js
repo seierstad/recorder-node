@@ -19,12 +19,6 @@ const interleave = (inputs = []) => {
     return result;
 };
 
-const a = new ArrayBuffer(1024);
-const dv = new DataView(a);
-const inn = new Float32Array(200);
-inn.fill(1);
-const u = new Uint8Array(a);
-
 const floatToPCM = (output, offset, input, bitsPrSample, littleEndian = true, bitsPrByte = 8) => {
 
     /*
@@ -103,7 +97,7 @@ function encodeWAV(recording, sampleRate, float = false, bitsPrSample = (float ?
     /* RIFF identifier */
     writeString(view, index, "RIFF");
     index += 4;
-    const riffLength = index;
+    //const riffLength = index;
 
     /* RIFF chunk length */
     view.setUint32(index, 8 + fmtChunkLength + dataChunkLength, true);

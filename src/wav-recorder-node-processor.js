@@ -37,7 +37,7 @@ class WavRecorderNodeProcessor extends AudioWorkletProcessor {
     }
 
     addChunk () {
-        this.recording.forEach((chunks, channel) => chunks.push(new Float32Array(bufferLength)));
+        this.recording.forEach((chunks) => chunks.push(new Float32Array(bufferLength)));
         this.currentChunk += 1;
         this.chunkIndex = 0;
         console.log(this.currentChunk, this.index);
@@ -105,45 +105,45 @@ class WavRecorderNodeProcessor extends AudioWorkletProcessor {
         } = JSON.parse(event.data);
 
         switch (type) {
-            case "command": {
+        case "command": {
 
-                switch (message) {
-                    case "record":
-                        this.record();
-                        break;
+            switch (message) {
+            case "record":
+                this.record();
+                break;
 
-                    case "pause":
-                        this.pause();
-                        break;
+            case "pause":
+                this.pause();
+                break;
 
-                    case "stop":
-                        this.stop();
-                        break;
+            case "stop":
+                this.stop();
+                break;
 
-                    case "destroy":
-                        this.destroy();
-                        break;
-                }
+            case "destroy":
+                this.destroy();
                 break;
             }
-            case "set": {
-                switch (message) {
-                    case "name":
-                        this.records[index].name = data;
-                        this.reportName(index);
-                        break;
-
-                    case "position":
-                        this.position = parseFloat(data);
-                        break;
-
-                }
+            break;
+        }
+        case "set": {
+            switch (message) {
+            case "name":
+                this.records[index].name = data;
+                this.reportName(index);
                 break;
-            }
 
-            case "get": {
-                switch (message) {
-                    /*
+            case "position":
+                this.position = parseFloat(data);
+                break;
+
+            }
+            break;
+        }
+
+        case "get": {
+            switch (message) {
+            /*
                     case "records":
                         this.port.postMessage(JSON.stringify({
                             "type": "report",
@@ -163,11 +163,11 @@ class WavRecorderNodeProcessor extends AudioWorkletProcessor {
                         break;
                     */
 
-                    default:
-                        console.log({event});
-                        console.log("BetterBufferSource: unhandled property request");
-                }
+            default:
+                console.log({event});
+                console.log("BetterBufferSource: unhandled property request");
             }
+        }
 
         }
     }

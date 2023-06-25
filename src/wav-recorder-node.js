@@ -59,15 +59,15 @@ class WavRecorderNode extends AudioWorkletNode {
     buttonHandler (event) {
         const {value} = event.target;
         switch (value) {
-            case "record":
-                this.record();
-                break;
-            case "stop":
-                this.stop();
-                break;
-            case "pause":
-                this.pause();
-                break;
+        case "record":
+            this.record();
+            break;
+        case "stop":
+            this.stop();
+            break;
+        case "pause":
+            this.pause();
+            break;
         }
     }
 
@@ -79,24 +79,24 @@ class WavRecorderNode extends AudioWorkletNode {
         } = event.data;
 
         switch (type) {
-            case "data": {
-                switch (message) {
-                    case "wav":
-                        this.addWavLink(data);
-                        break;
+        case "data": {
+            switch (message) {
+            case "wav":
+                this.addWavLink(data);
+                break;
 
-                    default:
-                        console.log(event);
-                }
+            default:
+                console.log(event);
+            }
+            break;
+        }
+        case "status": {
+            switch (message) {
+            case "full":
+                this.full();
                 break;
             }
-            case "status": {
-                switch (message) {
-                    case "full":
-                        this.full();
-                        break;
-                }
-            }
+        }
         }
     }
 

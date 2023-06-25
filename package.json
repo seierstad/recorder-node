@@ -1,8 +1,9 @@
 {
   "name": "wav-recorder-node",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Web Audio API node for recording audio to WAV-file",
-  "main": "index.js",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/seierstad/wav-recorder-node/issues"
   },
-  "homepage": "https://github.com/seierstad/wav-recorder-node#readme"
+  "homepage": "https://github.com/seierstad/wav-recorder-node#readme",
+  "devDependencies": {
+    "eslint": "^8.43.0"
+  }
 }
